@@ -22,7 +22,9 @@ def get_task(task_name: str, task_args_str: Optional[str] = None) -> base.BaseTa
     elif task_name == "mathqa":
         return mathqa.MathQATask()
     elif task_name == "mbpp":
-        return mbpp.MBPPTask()
+        return mbpp.MBPPTask(task_args_str=task_args_str)
+    elif task_name == "mbpp-test-gen":
+        return mbpp.MBPPTestGenerationTask(task_args_str=task_args_str)
     elif task_name == "slf5k":
         return slf5k.SLF5KTask()
     else:

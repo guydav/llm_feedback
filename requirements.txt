@@ -1,5 +1,6 @@
 datasets==2.11.0
 evaluate==0.4.0
+levenshtein
 python-dotenv==1.0.0
 langchain==0.0.150
 tqdm

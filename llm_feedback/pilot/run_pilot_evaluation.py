@@ -20,12 +20,13 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     if args.override_filename is None:
         filename = args.model_outputs_path.replace("__outputs.jsonl", "__metrics.json")
+        filename = args.model_outputs_path.replace("__outputs.json", "__metrics.json")
     else:
         filename = args.override_filename
     write_path = os.path.join(args.output_dir, filename)
 
     model_outputs = read_jsonl(args.model_outputs_path)
-    metrics = task.evaluate(phase=args.phase, outputs=model_outputs)
+    metrics = task.evaluate(phase=args.phase, outputs=model_outputs)   # type: ignore
     write_json(metrics, write_path)
 
     print(f"Wrote {args.task} metrics to {write_path}.")
