@@ -34,6 +34,7 @@ def main():
         chain_name = args.chain_name
     )
     dataset = task.get_dataset(phase=args.phase)
+    print(len(dataset))
     os.makedirs(args.output_dir, exist_ok=True)
 
     filename = "{}__{}__{}__{}__{}__outputs.jsonl".format(

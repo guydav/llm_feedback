@@ -1,0 +1,2902 @@
+[
+  {
+    "text": "Write a function to find the longest chain which can be formed from the given set of pairs.",
+    "test_list_0": "assert max_chain_length([Pair(5, 24), Pair(15, 25),Pair(27, 40), Pair(50, 60)], 4) == 3",
+    "test_list_1": "assert max_chain_length([Pair(1, 2), Pair(3, 4),Pair(5, 6), Pair(7, 8)], 4) == 4",
+    "test_list_2": "assert max_chain_length([Pair(19, 10), Pair(11, 12),Pair(13, 14), Pair(15, 16), Pair(31, 54)], 5) == 5",
+    "initial_solution": "```python\nclass Pair:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\ndef max_chain_length(pairs, n):\n    pairs.sort(key=lambda x:x.b)\n    \n    dp = [1] * n\n    \n    for i in range(1, n):\n        for j in range(i):\n            if pairs[i].a > pairs[j].b and dp[i] < dp[j] + 1:\n                dp[i] = dp[j] + 1\n    \n    return max(dp)\n\nmax_chain_length([Pair(5, 24), Pair(15, 25),Pair(27, 40), Pair(50, 60)], 4)\n```",
+    "feedback": "assert max_chain_length([], 0) == 0\nassert max_chain_length([Pair(1, 2)], 1) == 1\nassert max_chain_length([Pair(1, 2), Pair(2, 3), Pair(3, 4)], 3) == 3",
+    "gold_code": "class Pair(object): \r\n\tdef __init__(self, a, b): \r\n\t\tself.a = a \r\n\t\tself.b = b \r\ndef max_chain_length(arr, n): \r\n\tmax = 0\r\n\tmcl = [1 for i in range(n)] \r\n\tfor i in range(1, n): \r\n\t\tfor j in range(0, i): \r\n\t\t\tif (arr[i].a > arr[j].b and\r\n\t\t\t\tmcl[i] < mcl[j] + 1): \r\n\t\t\t\tmcl[i] = mcl[j] + 1\r\n\tfor i in range(n): \r\n\t\tif (max < mcl[i]): \r\n\t\t\tmax = mcl[i] \r\n\treturn max",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'ValueError'>): max() arg is an empty sequence",
+          "completion_id": 0,
+          "exception_type": "ValueError",
+          "exception_description": "max() arg is an empty sequence"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 19: SyntaxError: invalid syntax at statement: 'assert max_chain_length([Pair(1, 2), Pair(2, 3), Pair(3, 4)], 3) =='\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 19: SyntaxError: invalid syntax at statement: 'assert max_chain_length([Pair(1, 2), Pair(2, 3), Pair(3, 4)], 3) =='\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 17: SyntaxError: invalid syntax at statement: 'assert max_chain_length([Pair(1, 2), Pair(2, 3), Pair(3, 4)], 3) =='\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 17: SyntaxError: invalid syntax at statement: 'assert max_chain_length([Pair(1, 2), Pair(2, 3), Pair(3, 4)], 3) =='\",)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a python function to find the first repeated character in a given string.",
+    "test_list_0": "assert first_repeated_char(\"abcabc\") == \"a\"",
+    "test_list_1": "assert first_repeated_char(\"abc\") == \"None\"",
+    "test_list_2": "assert first_repeated_char(\"123123\") == \"1\"",
+    "initial_solution": "def first_repeated_char(string):\n    char_count = {}\n    for char in string:\n        if char in char_count:\n            return char\n        char_count[char] = 1\n    return None",
+    "feedback": "# New unit test 1: Empty string\nassert first_repeated_char(\"\") == None\n\n# New unit test 2: Single character string\nassert first_repeated_char(\"a\") == None\n\n# New unit test 3: All characters are repeated\nassert first_repeated_char(\"abcabcabc\") == \"a\"",
+    "gold_code": "def first_repeated_char(str1):\r\n  for index,c in enumerate(str1):\r\n    if str1[:index+1].count(c) > 1:\r\n      return c \r\n  return \"None\"",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 8: SyntaxError: unterminated string literal (detected at line 8) at statement: \\'assert first_repeated_char(\"abcabcabc\") == \"a\\'',)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 8: SyntaxError: unterminated string literal (detected at line 8) at statement: \\'assert first_repeated_char(\"abcabcabc\") == \"a\\'',)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 6: SyntaxError: unterminated string literal (detected at line 6) at statement: \\'assert first_repeated_char(\"abcabcabc\") == \"a\\'',)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 6: SyntaxError: unterminated string literal (detected at line 6) at statement: \\'assert first_repeated_char(\"abcabcabc\") == \"a\\'',)"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to get a lucid number smaller than or equal to n.",
+    "test_list_0": "assert get_ludic(10) == [1, 2, 3, 5, 7]",
+    "test_list_1": "assert get_ludic(25) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25]",
+    "test_list_2": "assert get_ludic(45) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29, 37, 41, 43]",
+    "initial_solution": "def get_ludic(n):\n    ludic_numbers = [1]\n    current_number = 2\n    while current_number <= n:\n        is_ludic = True\n        for number in ludic_numbers:\n            if current_number % number == 0:\n                is_ludic = False\n                break\n        if is_ludic:\n            ludic_numbers.append(current_number)\n        current_number += 1\n    return ludic_numbers",
+    "feedback": "# New Unit Test 1\n```python\nassert get_ludic(1) == [1]\n```\nExplanation: The function should return `[1]` when `n` is 1 because 1 is the only lucid number smaller than or equal to 1.\n\n# New Unit Test 2\n```python\nassert get_ludic(30) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29]\n```\nExplanation: The function should return `[1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29]` when `n` is 30 because these numbers are the lucid numbers smaller than or equal to 30.\n\n# New Unit Test 3\n```python\nassert get_ludic(100) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29, 37, 41, 43, 47, 53, 61, 67, 71, 79, 83, 89, 97]\n```\nExplanation: The function should return `[1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29, 37, 41, 43, 47, 53, 61, 67, 71, 79, 83, 89, 97]` when `n` is 100 because these numbers are the lucid numbers smaller than or equal to 100.",
+    "gold_code": "def get_ludic(n):\r\n\tludics = []\r\n\tfor i in range(1, n + 1):\r\n\t\tludics.append(i)\r\n\tindex = 1\r\n\twhile(index != len(ludics)):\r\n\t\tfirst_ludic = ludics[index]\r\n\t\tremove_index = index + first_ludic\r\n\t\twhile(remove_index < len(ludics)):\r\n\t\t\tludics.remove(ludics[remove_index])\r\n\t\t\tremove_index = remove_index + first_ludic - 1\r\n\t\tindex += 1\r\n\treturn ludics",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to reverse words in a given string.",
+    "test_list_0": "assert reverse_words(\"python program\")==(\"program python\")",
+    "test_list_1": "assert reverse_words(\"java language\")==(\"language java\")",
+    "test_list_2": "assert reverse_words(\"indian man\")==(\"man indian\")",
+    "initial_solution": "def reverse_words(string):\n    words = string.split()\n    reversed_words = words[::-1]\n    reversed_string = \" \".join(reversed_words)\n    return reversed_string",
+    "feedback": "assert reverse_words(\"\") == \"\"\nassert reverse_words(\"hello\") == \"hello\"\nassert reverse_words(\"a b c d\") == \"d c b a\"",
+    "gold_code": "def reverse_words(s):\r\n        return ' '.join(reversed(s.split()))",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 6: SyntaxError: unterminated string literal (detected at line 6) at statement: \\'assert reverse_words(\"a b c d\") == \"d c b a\\'',)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 6: SyntaxError: unterminated string literal (detected at line 6) at statement: \\'assert reverse_words(\"a b c d\") == \"d c b a\\'',)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 3: SyntaxError: unterminated string literal (detected at line 3) at statement: \\'assert reverse_words(\"a b c d\") == \"d c b a\\'',)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 3: SyntaxError: unterminated string literal (detected at line 3) at statement: \\'assert reverse_words(\"a b c d\") == \"d c b a\\'',)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to check if the given integer is a prime number.",
+    "test_list_0": "assert prime_num(13)==True",
+    "test_list_1": "assert prime_num(7)==True",
+    "test_list_2": "assert prime_num(-1010)==False",
+    "initial_solution": "def prime_num(num):\n    if num <= 1:\n        return False\n    for i in range(2, int(num**0.5) + 1):\n        if num % i == 0:\n            return False\n    return True",
+    "feedback": "# Test 1: Testing a negative prime number\nassert prime_num(-13) == False\n\n# Test 2: Testing a large prime number\nassert prime_num(999999937) == True\n\n# Test 3: Testing a large non-prime number\nassert prime_num(999999999) == False",
+    "gold_code": "def prime_num(num):\r\n  if num >=1:\r\n   for i in range(2, num//2):\r\n     if (num % i) == 0:\r\n                return False\r\n     else:\r\n                return True\r\n  else:\r\n          return False",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'ValueError'>): To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range.",
+          "completion_id": 0,
+          "exception_type": "ValueError",
+          "exception_description": "To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range."
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'ValueError'>): To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range.",
+          "completion_id": 1,
+          "exception_type": "ValueError",
+          "exception_description": "To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range."
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'ValueError'>): To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range.",
+          "completion_id": 0,
+          "exception_type": "ValueError",
+          "exception_description": "To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range."
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'ValueError'>): To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range.",
+          "completion_id": 1,
+          "exception_type": "ValueError",
+          "exception_description": "To be created range() object would be to large, in RestrictedPython we only allow 1000 elements in a range."
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to convert degrees to radians.",
+    "test_list_0": "assert radian_degree(90)==1.5707963267948966",
+    "test_list_1": "assert radian_degree(60)==1.0471975511965976",
+    "test_list_2": "assert radian_degree(120)==2.0943951023931953",
+    "initial_solution": "import math\n\ndef radian_degree(degrees):\n    return math.radians(degrees)",
+    "feedback": "assert radian_degree(0) == 0.0\nassert radian_degree(180) == math.pi\nassert radian_degree(360) == 2 * math.pi",
+    "gold_code": "import math\r\ndef radian_degree(degree):\r\n radian = degree*(math.pi/180)\r\n return radian",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'TypeError'>): unsupported operand type(s) for *: 'int' and 'NoneType'",
+          "completion_id": 0,
+          "exception_type": "TypeError",
+          "exception_description": "unsupported operand type(s) for *: 'int' and 'NoneType'"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'TypeError'>): unsupported operand type(s) for *: 'int' and 'NoneType'",
+          "completion_id": 1,
+          "exception_type": "TypeError",
+          "exception_description": "unsupported operand type(s) for *: 'int' and 'NoneType'"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to search a literals string in a string and also find the location within the original string where the pattern occurs by using regex.",
+    "test_list_0": "assert find_literals('The quick brown fox jumps over the lazy dog.', 'fox') == ('fox', 16, 19)",
+    "test_list_1": "assert find_literals('Its been a very crazy procedure right', 'crazy') == ('crazy', 16, 21)",
+    "test_list_2": "assert find_literals('Hardest choices required strongest will', 'will') == ('will', 35, 39)",
+    "initial_solution": "import re\n\ndef find_literals(string, pattern):\n    match = re.search(pattern, string)\n    if match:\n        return (match.group(), match.start(), match.end())\n    else:\n        return None",
+    "feedback": "assert find_literals('The quick brown fox jumps over the lazy dog.', 'dog.') == ('dog.', 40, 44)\nassert find_literals('Its been a very crazy procedure right', 'procedure') == ('procedure', 20, 29)\nassert find_literals('Hardest choices required strongest will', 'choices') == ('choices', 8, 15)",
+    "gold_code": "import re\r\npattern = 'fox'\r\ntext = 'The quick brown fox jumps over the lazy dog.'\r\ndef find_literals(text, pattern):\r\n  match = re.search(pattern, text)\r\n  s = match.start()\r\n  e = match.end()\r\n  return (match.re.pattern, s, e)",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 9: SyntaxError: \\'(\\' was never closed at statement: \"assert find_literals(\\'Hardest choices required strongest will\\', \\'choices\\') == (\\'choices\\', 8, 15\"',)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 9: SyntaxError: \\'(\\' was never closed at statement: \"assert find_literals(\\'Hardest choices required strongest will\\', \\'choices\\') == (\\'choices\\', 8, 15\"',)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): ('Line 9: SyntaxError: \\'(\\' was never closed at statement: \"assert find_literals(\\'Hardest choices required strongest will\\', \\'choices\\') == (\\'choices\\', 8, 15\"',)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "('Line 9: SyntaxError: \\'(\\' was never closed at statement: \"assert find_literals(\\'Hardest choices required strongest will\\', \\'choices\\') == (\\'choices\\', 8, 15\"',)"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a python function to find nth bell number.",
+    "test_list_0": "assert bell_Number(2) == 2",
+    "test_list_1": "assert bell_Number(3) == 5",
+    "test_list_2": "assert bell_Number(4) == 15",
+    "initial_solution": "# Bell Number is a number that shows how many different ways a set of elements can be partitioned.\n# The formula to find the nth Bell Number is:\n# B(n) = sum(k=0 to n) S(n, k), where S(n, k) is the Stirling number of the second kind.\n# The Stirling number of the second kind can be calculated using a recursive formula:\n# S(n, k) = k * S(n-1, k) + S(n-1, k-1), where S(0, 0) = 1 and S(n, 0) = 0 for all n > 0.\n\ndef bell_Number(n):\n    s = [[0 for j in range(n+1)] for i in range(n+1)]\n    s[0][0] = 1\n\n    for i in range(1, n+1):\n        s[i][0] = 0\n        for j in range(1, i+1):\n            s[i][j] = j * s[i-1][j] + s[i-1][j-1]\n\n    return sum(s[n])\n\nprint(bell_Number(2))",
+    "feedback": "# Test 1: Test for n = 0\n\"\"\"\nThe function should return 1, as the Bell Number for n = 0 is 1.\n\"\"\"\nassert bell_Number(0) == 1\n\n# Test 2: Test for n = 1\n\"\"\"\nThe function should return 1, as the Bell Number for n = 1 is 1.\n\"\"\"\nassert bell_Number(1) == 1\n\n# Test 3: Test for n = 5\n\"\"\"\nThe function should return 52, as the Bell Number for n = 5 is 52.\n\"\"\"\nassert bell_Number(5) == 52",
+    "gold_code": "def bell_Number(n): \r\n    bell = [[0 for i in range(n+1)] for j in range(n+1)] \r\n    bell[0][0] = 1\r\n    for i in range(1, n+1):\r\n        bell[i][0] = bell[i-1][i-1]\r\n        for j in range(1, i+1): \r\n            bell[i][j] = bell[i-1][j-1] + bell[i][j-1] \r\n    return bell[n][0] ",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a python function to find minimum possible value for the given periodic function.",
+    "test_list_0": "assert floor_Min(10,20,30) == 15",
+    "test_list_1": "assert floor_Min(1,2,1) == 0",
+    "test_list_2": "assert floor_Min(11,10,9) == 9",
+    "initial_solution": "import math\n\ndef floor_Min(a, b, c):\n    return math.floor((a + b + c) / 2)",
+    "feedback": "assert floor_Min(0,0,0) == 0\nassert floor_Min(-10,10,0) == 0\nassert floor_Min(1,1,1) == 1",
+    "gold_code": "def floor_Min(A,B,N):\r\n    x = max(B - 1,N)\r\n    return (A*x) // B",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'ZeroDivisionError'>): integer division or modulo by zero",
+          "completion_id": 1,
+          "exception_type": "ZeroDivisionError",
+          "exception_description": "integer division or modulo by zero"
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 5: SyntaxError: invalid syntax at statement: 'assert floor_Min(1,1,1) =='\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 5: SyntaxError: invalid syntax at statement: 'assert floor_Min(1,1,1) =='\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 4: SyntaxError: invalid syntax at statement: 'assert floor_Min(1,1,1) =='\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 4: SyntaxError: invalid syntax at statement: 'assert floor_Min(1,1,1) =='\",)"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a python function to remove the k'th element from a given list.",
+    "test_list_0": "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
+    "test_list_1": "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
+    "test_list_2": "assert remove_kth_element([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10],5)==[10,10,15,19, 18, 17, 26, 26, 17, 18, 10]",
+    "initial_solution": "def remove_kth_element(lst, k):\n    del lst[k-1]\n    return lst",
+    "feedback": "assert remove_kth_element([1, 2, 3, 4], 1) == [2, 3, 4]\nassert remove_kth_element([1, 2, 3, 4], 4) == [1, 2, 3]\nassert remove_kth_element([1, 2, 3, 4], 2) == [1, 3, 4]",
+    "gold_code": "def remove_kth_element(list1, L):\r\n    return  list1[:L-1] + list1[L:]",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 4: SyntaxError: '[' was never closed at statement: 'assert remove_kth_element([1, 2, 3, 4], 2) == [1, 3, 4'\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 4: SyntaxError: '[' was never closed at statement: 'assert remove_kth_element([1, 2, 3, 4], 2) == [1, 3, 4'\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: '[' was never closed at statement: 'assert remove_kth_element([1, 2, 3, 4], 2) == [1, 3, 4'\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: '[' was never closed at statement: 'assert remove_kth_element([1, 2, 3, 4], 2) == [1, 3, 4'\",)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to find the maximum of nth column from the given tuple list.",
+    "test_list_0": "assert max_of_nth([(5, 6, 7), (1, 3, 5), (8, 9, 19)], 2) == 19",
+    "test_list_1": "assert max_of_nth([(6, 7, 8), (2, 4, 6), (9, 10, 20)], 1) == 10",
+    "test_list_2": "assert max_of_nth([(7, 8, 9), (3, 5, 7), (10, 11, 21)], 1) == 11",
+    "initial_solution": "def max_of_nth(tuples, n):\n    return max(tuples, key=lambda x: x[n])[n]",
+    "feedback": "assert max_of_nth([(1, 2, 3)], 0) == 1\nassert max_of_nth([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2) == 9\nassert max_of_nth([(1, 2), (3, 4), (5, 6)], 1) == 6",
+    "gold_code": "def max_of_nth(test_list, N):\r\n  res = max([sub[N] for sub in test_list])\r\n  return (res) ",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: invalid syntax at statement: 'assert max_of_nth([(1, 2), (3, 4), (5, 6)], 1) =='\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: invalid syntax at statement: 'assert max_of_nth([(1, 2), (3, 4), (5, 6)], 1) =='\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 4: SyntaxError: invalid syntax at statement: 'assert max_of_nth([(1, 2), (3, 4), (5, 6)], 1) =='\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 4: SyntaxError: invalid syntax at statement: 'assert max_of_nth([(1, 2), (3, 4), (5, 6)], 1) =='\",)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a python function to merge the first and last elements separately in a list of lists.",
+    "test_list_0": "assert merge([['x', 'y'], ['a', 'b'], ['m', 'n']]) == [['x', 'a', 'm'], ['y', 'b', 'n']]",
+    "test_list_1": "assert merge([[1, 2], [3, 4], [5, 6], [7, 8]]) == [[1, 3, 5, 7], [2, 4, 6, 8]]",
+    "test_list_2": "assert merge([['x', 'y','z' ], ['a', 'b','c'], ['m', 'n','o']]) == [['x', 'a', 'm'], ['y', 'b', 'n'],['z', 'c','o']]",
+    "initial_solution": "def merge(lst):\n    return [[lst[0][0], lst[1][0], lst[2][0]], [lst[0][1], lst[1][1], lst[2][1]]]",
+    "feedback": "assert merge([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 4, 7], [2, 5, 8]]\nassert merge([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]) == [[1, 3, 5, 7, 9], [2, 4, 6, 8, 10]]\nassert merge([[1], [2, 3], [4, 5, 6]]) == [[1, 2, 4], [None, 3, 5]]",
+    "gold_code": "def merge(lst):  \r\n    return [list(ele) for ele in list(zip(*lst))] ",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: '[' was never closed at statement: 'assert merge([[1], [2, 3], [4, 5, 6]]) == [[1, 2, 4], [None, 3, 5]'\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: '[' was never closed at statement: 'assert merge([[1], [2, 3], [4, 5, 6]]) == [[1, 2, 4], [None, 3, 5]'\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: '[' was never closed at statement: 'assert merge([[1], [2, 3], [4, 5, 6]]) == [[1, 2, 4], [None, 3, 5]'\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: '[' was never closed at statement: 'assert merge([[1], [2, 3], [4, 5, 6]]) == [[1, 2, 4], [None, 3, 5]'\",)"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to find the maximum value in record list as tuple attribute in the given tuple list.",
+    "test_list_0": "assert maximum_value([('key1', [3, 4, 5]), ('key2', [1, 4, 2]), ('key3', [9, 3])]) == [('key1', 5), ('key2', 4), ('key3', 9)]",
+    "test_list_1": "assert maximum_value([('key1', [4, 5, 6]), ('key2', [2, 5, 3]), ('key3', [10, 4])]) == [('key1', 6), ('key2', 5), ('key3', 10)]",
+    "test_list_2": "assert maximum_value([('key1', [5, 6, 7]), ('key2', [3, 6, 4]), ('key3', [11, 5])]) == [('key1', 7), ('key2', 6), ('key3', 11)]",
+    "initial_solution": "def maximum_value(records):\n    max_values = []\n    for record in records:\n        key = record[0]\n        values = record[1]\n        max_value = max(values)\n        max_values.append((key, max_value))\n    return max_values",
+    "feedback": "# New Unit Test 1\n```python\n# Testing when the input list is empty\nassert maximum_value([]) == []\n```\n\n# New Unit Test 2\n```python\n# Testing when each tuple in the input list has only one value\nassert maximum_value([('key1', [3]), ('key2', [1]), ('key3', [9])]) == [('key1', 3), ('key2', 1), ('key3', 9)]\n```\n\n# New Unit Test 3\n```python\n# Testing when the input list has tuples with duplicate keys\nassert maximum_value([('key1', [3, 4, 5]), ('key1', [1, 2, 3]), ('key3', [9, 3])]) == [('key1', 5), ('key1', 3), ('key3', 9)]\n```",
+    "gold_code": "def maximum_value(test_list):\r\n  res = [(key, max(lst)) for key, lst in test_list]\r\n  return (res) ",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to find the cumulative sum of all the values that are present in the given tuple list.",
+    "test_list_0": "assert cummulative_sum([(1, 3), (5, 6, 7), (2, 6)]) == 30",
+    "test_list_1": "assert cummulative_sum([(2, 4), (6, 7, 8), (3, 7)]) == 37",
+    "test_list_2": "assert cummulative_sum([(3, 5), (7, 8, 9), (4, 8)]) == 44",
+    "initial_solution": "def cummulative_sum(tuple_list):\n    total_sum = 0\n    for tup in tuple_list:\n        total_sum += sum(tup)\n    return total_sum",
+    "feedback": "# New Unit Test 1\nassert cummulative_sum([(1, 2, 3)]) == 6\n# Explanation: The tuple list contains only one tuple with values (1, 2, 3). The cumulative sum of all values is 1 + 2 + 3 = 6.\n\n# New Unit Test 2\nassert cummulative_sum([(0, 0, 0), (0, 0, 0), (0, 0, 0)]) == 0\n# Explanation: The tuple list contains three tuples, each with values (0, 0, 0). The cumulative sum of all values is 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 = 0.\n\n# New Unit Test 3\nassert cummulative_sum([(1,), (2, 3), (4, 5, 6)]) == 21\n# Explanation: The tuple list contains three tuples with values (1,), (2, 3), and (4, 5, 6). The cumulative sum of all values is 1 + 2 + 3 + 4 + 5 + 6 = 21.",
+    "gold_code": "def cummulative_sum(test_list):\r\n  res = sum(map(sum, test_list))\r\n  return (res)",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to find average value of the numbers in a given tuple of tuples.",
+    "test_list_0": "assert average_tuple(((10, 10, 10, 12), (30, 45, 56, 45), (81, 80, 39, 32), (1, 2, 3, 4)))==[30.5, 34.25, 27.0, 23.25]",
+    "test_list_1": "assert average_tuple(((1, 1, -5), (30, -15, 56), (81, -60, -39), (-10, 2, 3)))== [25.5, -18.0, 3.75]",
+    "test_list_2": "assert average_tuple( ((100, 100, 100, 120), (300, 450, 560, 450), (810, 800, 390, 320), (10, 20, 30, 40)))==[305.0, 342.5, 270.0, 232.5]",
+    "initial_solution": "def average_tuple(t):\n    return [sum(nums)/len(nums) for nums in zip(*t)]",
+    "feedback": "assert average_tuple(((0, 0, 0), (0, 0, 0), (0, 0, 0))) == [0, 0, 0]",
+    "gold_code": "def average_tuple(nums):\r\n    result = [sum(x) / len(x) for x in zip(*nums)]\r\n    return result",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: '[' was never closed at statement: 'assert average_tuple(((0, 0, 0), (0, 0, 0), (0, 0, 0))) == [0, 0, 0'\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: '[' was never closed at statement: 'assert average_tuple(((0, 0, 0), (0, 0, 0), (0, 0, 0))) == [0, 0, 0'\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 4: SyntaxError: '[' was never closed at statement: 'assert average_tuple(((0, 0, 0), (0, 0, 0), (0, 0, 0))) == [0, 0, 0'\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 4: SyntaxError: '[' was never closed at statement: 'assert average_tuple(((0, 0, 0), (0, 0, 0), (0, 0, 0))) == [0, 0, 0'\",)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to perfom the modulo of tuple elements in the given two tuples.",
+    "test_list_0": "assert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+    "test_list_1": "assert tuple_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+    "test_list_2": "assert tuple_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)",
+    "initial_solution": "def tuple_modulo(tuple1, tuple2):\n    return tuple(x % y for x, y in zip(tuple1, tuple2))",
+    "feedback": "assert tuple_modulo((0, 0, 0), (1, 1, 1)) == (0, 0, 0)\nassert tuple_modulo((1, 1, 1), (0, 0, 0)) == (0, 0, 0)\nassert tuple_modulo((10, 10, 10), (2, 2, 2)) == (0, 0, 0)\nassert tuple_modulo((1, 2, 3), (4, 5, 6)) == (1, 2, 3)\nassert tuple_modulo((100, 200, 300), (10, 20, 30)) == (0, 0, 0)\nassert tuple_modulo((7, 8, 9, 10), (2, 2, 2, 2)) == (1, 0, 1, 0)",
+    "gold_code": "def tuple_modulo(test_tup1, test_tup2):\r\n  res = tuple(ele1 % ele2 for ele1, ele2 in zip(test_tup1, test_tup2)) \r\n  return (res) ",
+    "test_setup_code": "",
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'ZeroDivisionError'>): integer division or modulo by zero",
+          "completion_id": 0,
+          "exception_type": "ZeroDivisionError",
+          "exception_description": "integer division or modulo by zero"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'ZeroDivisionError'>): integer division or modulo by zero",
+          "completion_id": 1,
+          "exception_type": "ZeroDivisionError",
+          "exception_description": "integer division or modulo by zero"
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "6": [
+      [
+        0,
+        {
+          "task_id": 6,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 6,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "7": [
+      [
+        0,
+        {
+          "task_id": 7,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 7,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "8": [
+      [
+        0,
+        {
+          "task_id": 8,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 3: SyntaxError: '(' was never closed at statement: 'assert tuple_modulo((7, 8, 9, 10), (2, 2, 2, 2)) == (1, 0, 1, 0'\",)",
+          "completion_id": 0,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 3: SyntaxError: '(' was never closed at statement: 'assert tuple_modulo((7, 8, 9, 10), (2, 2, 2, 2)) == (1, 0, 1, 0'\",)"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 8,
+          "passed": false,
+          "result": "failed (<class 'SyntaxError'>): (\"Line 4: SyntaxError: '(' was never closed at statement: 'assert tuple_modulo((7, 8, 9, 10), (2, 2, 2, 2)) == (1, 0, 1, 0'\",)",
+          "completion_id": 1,
+          "exception_type": "SyntaxError",
+          "exception_description": "(\"Line 4: SyntaxError: '(' was never closed at statement: 'assert tuple_modulo((7, 8, 9, 10), (2, 2, 2, 2)) == (1, 0, 1, 0'\",)"
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to check for the number of jumps required of given length to reach a point of form (d, 0) from origin in a 2d plane.",
+    "test_list_0": "assert min_Jumps(3,4,11)==3.5",
+    "test_list_1": "assert min_Jumps(3,4,0)==0",
+    "test_list_2": "assert min_Jumps(11,14,11)==1",
+    "initial_solution": "def min_Jumps(x, y, d):\n    jumps = 0\n    distance = (x**2 + y**2)**0.5\n    \n    if distance == 0:\n        return 0\n    \n    if distance <= d:\n        return 1\n    \n    jumps = distance / d\n\n    return jumps",
+    "feedback": "# New unit test 1\nassert min_Jumps(0, 0, 5) == 0\n# Explanation: The starting point is already at the destination point (0, 0), so no jumps are required.\n\n# New unit test 2\nassert min_Jumps(3, 4, 5) == 1\n# Explanation: The distance between the starting point (3, 4) and the destination point (0, 0) is 5. Since the maximum jump length is also 5, only one jump is required.\n\n# New unit test 3\nassert min_Jumps(5, 12, 10) == 1.3\n# Explanation: The distance between the starting point (5, 12) and the destination point (0, 0) is 13. The maximum jump length is 10. In this case, the total jumps required would be 1.3, which represents 1 full jump of length 10 and an additional jump of length 3.",
+    "gold_code": "def min_Jumps(a, b, d): \r\n    temp = a \r\n    a = min(a, b) \r\n    b = max(temp, b) \r\n    if (d >= b): \r\n        return (d + b - 1) / b \r\n    if (d == 0): \r\n        return 0\r\n    if (d == a): \r\n        return 1\r\n    else:\r\n        return 2",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": false,
+          "result": "failed (<class 'ZeroDivisionError'>): float division by zero",
+          "completion_id": 0,
+          "exception_type": "ZeroDivisionError",
+          "exception_description": "float division by zero"
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'ZeroDivisionError'>): division by zero",
+          "completion_id": 1,
+          "exception_type": "ZeroDivisionError",
+          "exception_description": "division by zero"
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to divide two lists using map and lambda function.",
+    "test_list_0": "assert div_list([4,5,6],[1, 2, 3])==[4.0,2.5,2.0]",
+    "test_list_1": "assert div_list([3,2],[1,4])==[3.0, 0.5]",
+    "test_list_2": "assert div_list([90,120],[50,70])==[1.8, 1.7142857142857142]",
+    "initial_solution": "def div_list(list1, list2):\n    return list(map(lambda x, y: x/y, list1, list2))",
+    "feedback": "assert div_list([1, 2, 3], [4, 5, 6]) == [0.25, 0.4, 0.5]\nassert div_list([0, 0, 0], [1, 2, 3]) == [0.0, 0.0, 0.0]\nassert div_list([], []) == []\n```",
+    "gold_code": "def div_list(nums1,nums2):\r\n  result = map(lambda x, y: x / y, nums1, nums2)\r\n  return list(result)",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to move all the numbers in it to the given string.",
+    "test_list_0": "assert move_num('I1love143you55three3000thousand') == 'Iloveyouthreethousand1143553000'",
+    "test_list_1": "assert move_num('Avengers124Assemble') == 'AvengersAssemble124'",
+    "test_list_2": "assert move_num('Its11our12path13to14see15things16do17things') == 'Itsourpathtoseethingsdothings11121314151617'",
+    "initial_solution": "def move_num(string):\n    numbers = []\n    letters = []\n    for char in string:\n        if char.isdigit():\n            numbers.append(char)\n        else:\n            letters.append(char)\n    return ''.join(letters) + ''.join(numbers)",
+    "feedback": "assert move_num('1234567890') == '1234567890'\nassert move_num('abc123def456') == 'abcdef123456'\nassert move_num('1a2b3c4d5e') == 'abcde12345'\n",
+    "gold_code": "def move_num(test_str):\r\n  res = ''\r\n  dig = ''\r\n  for ele in test_str:\r\n    if ele.isdigit():\r\n      dig += ele\r\n    else:\r\n      res += ele\r\n  res += dig\r\n  return (res) ",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ]
+  },
+  {
+    "text": "Write a function to find the largest subset where each pair is divisible.",
+    "test_list_0": "assert largest_subset([ 1, 3, 6, 13, 17, 18 ], 6) == 4",
+    "test_list_1": "assert largest_subset([10, 5, 3, 15, 20], 5) == 3",
+    "test_list_2": "assert largest_subset([18, 1, 3, 6, 13, 17], 6) == 4",
+    "initial_solution": "def largest_subset(arr, k):\n    arr.sort()\n    dp = [0] * len(arr)\n    ans = 0\n    \n    for i in range(len(arr)):\n        dp[i] = 1\n        for j in range(i):\n            if arr[i] % arr[j] == 0:\n                dp[i] = max(dp[i], dp[j] + 1)\n        ans = max(ans, dp[i])\n    \n    return ans",
+    "feedback": "# New Unit Test 1\n```python\n# Test when the input array is empty\nassert largest_subset([], 5) == 0\n```\n\n# New Unit Test 2\n```python\n# Test when the input array contains only one element\nassert largest_subset([6], 6) == 1\n```\n\n# New Unit Test 3\n```python\n# Test when the input array contains duplicate elements\nassert largest_subset([2, 4, 6, 6, 8, 10], 10) == 3\n```\n\n# New Unit Test 4\n```python\n# Test when all elements in the input array are divisible by k\nassert largest_subset([5, 10, 15, 20, 25], 5) == 5\n```\n\n# New Unit Test 5\n```python\n# Test when no elements in the input array are divisible by k\nassert largest_subset([2, 3, 7, 11, 13], 5) == 1\n```\n\n# New Unit Test 6\n```python\n# Test when the input array contains negative numbers\nassert largest_subset([-2, -4, -6, -8, -10], 2) == 5\n```\n\n# New Unit Test 7\n```python\n# Test when the input array contains both positive and negative numbers\nassert largest_subset([-2, 4, -6, 8, -10], 2) == 2\n```\n\n# New Unit Test 8\n```python\n# Test when k is 1\nassert largest_subset([2, 4, 6, 8, 10], 1) == 1\n```\n\n# New Unit Test 9\n```python\n# Test when k is 0\nassert largest_subset([2, 4, 6, 8, 10], 0) == 1\n```\n\n# New Unit Test 10\n```python\n# Test when k is a negative number\nassert largest_subset([2, 4, 6, 8, 10], -5) == 1\n```",
+    "gold_code": "def largest_subset(a, n):\r\n\tdp = [0 for i in range(n)]\r\n\tdp[n - 1] = 1; \r\n\tfor i in range(n - 2, -1, -1):\r\n\t\tmxm = 0;\r\n\t\tfor j in range(i + 1, n):\r\n\t\t\tif a[j] % a[i] == 0 or a[i] % a[j] == 0:\r\n\t\t\t\tmxm = max(mxm, dp[j])\r\n\t\tdp[i] = 1 + mxm\r\n\treturn max(dp)",
+    "test_setup_code": "",
+    "1": [
+      [
+        0,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 1,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "0": [
+      [
+        0,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 0,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "2": [
+      [
+        0,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 2,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "3": [
+      [
+        0,
+        {
+          "task_id": 3,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 3,
+          "passed": false,
+          "result": "failed (<class 'IndexError'>): list index out of range",
+          "completion_id": 1,
+          "exception_type": "IndexError",
+          "exception_description": "list index out of range"
+        }
+      ]
+    ],
+    "4": [
+      [
+        0,
+        {
+          "task_id": 4,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 4,
+          "passed": false,
+          "result": "failed (<class 'IndexError'>): list index out of range",
+          "completion_id": 1,
+          "exception_type": "IndexError",
+          "exception_description": "list index out of range"
+        }
+      ]
+    ],
+    "5": [
+      [
+        0,
+        {
+          "task_id": 5,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 5,
+          "passed": false,
+          "result": "failed (<class 'IndexError'>): list index out of range",
+          "completion_id": 1,
+          "exception_type": "IndexError",
+          "exception_description": "list index out of range"
+        }
+      ]
+    ],
+    "7": [
+      [
+        0,
+        {
+          "task_id": 7,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 0
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 7,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "6": [
+      [
+        0,
+        {
+          "task_id": 6,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 6,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "8": [
+      [
+        0,
+        {
+          "task_id": 8,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 8,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 1,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ]
+    ],
+    "9": [
+      [
+        0,
+        {
+          "task_id": 9,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 9,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "11": [
+      [
+        0,
+        {
+          "task_id": 11,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 11,
+          "passed": false,
+          "result": "failed (<class 'IndexError'>): list assignment index out of range",
+          "completion_id": 1,
+          "exception_type": "IndexError",
+          "exception_description": "list assignment index out of range"
+        }
+      ]
+    ],
+    "10": [
+      [
+        0,
+        {
+          "task_id": 10,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 10,
+          "passed": true,
+          "result": "passed",
+          "completion_id": 1
+        }
+      ]
+    ],
+    "12": [
+      [
+        0,
+        {
+          "task_id": 12,
+          "passed": false,
+          "result": "failed (<class 'AssertionError'>): ",
+          "completion_id": 0,
+          "exception_type": "AssertionError",
+          "exception_description": ""
+        }
+      ],
+      [
+        1,
+        {
+          "task_id": 12,
+          "passed": false,
+          "result": "failed (<class 'IndexError'>): list assignment index out of range",
+          "completion_id": 1,
+          "exception_type": "IndexError",
+          "exception_description": "list assignment index out of range"
+        }
+      ]
+    ]
+  }
+]
