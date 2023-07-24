@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import tqdm.auto as tqdm
 import os
 import json
@@ -37,13 +38,11 @@ def main():
     print(len(dataset))
     os.makedirs(args.output_dir, exist_ok=True)
 
-    filename = "{}__{}__{}__{}__{}__outputs.jsonl".format(
-        args.generation_llm,
-        args.feedback_llm,
-        args.refinement_llm,
-        args.task,
-        args.phase,
-    )
+    filename = f"{args.generation_llm}__{args.feedback_llm}__{args.refinement_llm}__{args.task}__{args.phase}"
+    if args.task_args_str is not None:
+        filename += f"__{args.task_args_str}"
+    filename += f"__{datetime.datetime.now().strftime('%Y_%m_%d')}_outputs.jsonl"
+
     write_path = os.path.join(args.output_dir, filename)
     with open(write_path, "w") as f:
         count = 0

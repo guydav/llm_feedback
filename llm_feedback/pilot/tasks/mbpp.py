@@ -209,6 +209,7 @@ class MBPPTestGenerationTask(BaseTask):
         super().__init__()
         self.task_args_str = task_args_str
         self.tqdm = 'tqdm' in task_args_str if task_args_str else False
+        self.shuffle_test_answer = 'shuffle_test' in task_args_str if task_args_str else False
 
         self.allowed_imports = allowed_imports
         self.additional_globals = additional_globals
@@ -220,20 +221,25 @@ class MBPPTestGenerationTask(BaseTask):
     def get_chain(self, generation_llm: str, feedback_llm: str, refinement_llm: str,
                   chain_name: Optional[str] = "regular"):
         # 0. Setup
-        initial_llm = ChatOpenAI(model_name=generation_llm)  
-        feedback_llm = ChatOpenAI(model_name=feedback_llm)  
-        # refinement_llm = ChatOpenAI(model_name=refinement_llm)  # type: ignore
+        initial_llm = ChatOpenAI(model_name=generation_llm)  # type: ignore
+        feedback_llm = ChatOpenAI(model_name=feedback_llm)   # type: ignore
+        refinement_llm = ChatOpenAI(model_name=refinement_llm)  # type: ignore
 
-        initial_solution_prompt = ChatPromptTemplate.from_messages([
-            SystemMessage(content="You are a helpful Python coding assistant."),
-            HumanMessagePromptTemplate.from_template("""
+        initial_template = """
 You will be given a Python programming task and one unit test. Write a function that satisfies the specification in task description and passes the unit test. Imporant: Do not include the test case in your solution! Output just the improved solution, without any additional comments. Your entire output should be ready to be copy-pasted into a Python console and run.
 Instruction:
 {text}
 Unit test:
-{test_list_0}
+```python
+TEST_PLACEHOLDER
+```
 Solution:
-            """.strip(), input_variables=["text", "test_list_0"]),
+            """.replace("TEST_PLACEHOLDER", "{shuffled_test}" if self.shuffle_test_answer else "{test_list_0}")
+
+        initial_solution_prompt = ChatPromptTemplate.from_messages([
+            SystemMessage(content="You are a helpful Python coding assistant."),
+            HumanMessagePromptTemplate.from_template(initial_template.strip(), 
+                                                     input_variables=["text", "shuffled_test" if self.shuffle_test_answer else "test_list_0"]),
         ])
 
         if chain_name == "regular":
@@ -244,7 +250,7 @@ You will be given a Python programming task, a candidate solution, and 3 unit te
 The tests should be as helpful as possible, and should cover as many edge cases as possible. The tests should be written in the same style as the provided tests. 
 Imporant: Do not include the existing test cases in your solution! Output just the new test cases. Ensure that you use the same function and class names as in the existing tests. Each test case should be ready to copy-paste Python console and run.
 Instruction:
-"{text}"
+{text}
 Candidate solution:
 ```python
 {initial_solution}
@@ -256,10 +262,33 @@ Current unit tests:
 {test_list_2}
 ```
 New unit tests:
-```python
-""".strip(), input_variables=["text", "test_list_0", "test_list_1", "test_list_2"]),
-])
+""".strip(), input_variables=["text", "test_list_0", "test_list_1", "test_list_2"]),])
             
+            refinement_prompt = ChatPromptTemplate.from_messages([
+                SystemMessage(content="You are a helpful Python coding assistant."),
+                HumanMessagePromptTemplate.from_template("""
+Feedback:
+You will be given a Python programming task, an initial solution, and tests an expert provided to help test that initial solution. 
+Your job is to rewrite the initial solution based on the tests, if necessary. 
+Output just the improved solution, without any additional comments. Don't include the unit tests in your improved solution, they are not part of the solution. 
+Your entire output should be ready to be copy-pasted into a Python console and run.
+Instruction:
+{text}
+Unit test:
+```python
+TEST_PLACEHOLDER
+```
+Initial solution:
+```python
+{initial_solution}
+```
+Additional unit tests:
+{feedback}
+Improved solution:
+            """.replace("TEST_PLACEHOLDER", "{shuffled_test}" if self.shuffle_test_answer else "{test_list_0}").strip(), 
+            input_variables=["text", "initial_solution", "feedback"]),
+            ])
+
         else:
             raise KeyError(chain_name)
 
@@ -270,25 +299,40 @@ New unit tests:
             prompt=initial_solution_prompt,
             output_key="initial_solution",
         )
-        feedback_chain = LLMChain(llm=feedback_llm, prompt=feedback_prompt, output_key="feedback")
-        # refinement_chain = LLMChain(llm=refinement_llm, prompt=refinement_prompt, output_key="refinement")
+        feedback_chain = LLMChain(llm=feedback_llm, prompt=feedback_prompt, output_key="feedback")  # type: ignore
+        refinement_chain = LLMChain(llm=refinement_llm, prompt=refinement_prompt, output_key="refinement")  # type: ignore
+
+        input_variables = ["text", "test_list_0", "test_list_1", "test_list_2"]
+        if self.shuffle_test_answer:
+            input_variables.append("shuffled_test")
+
         ilf_chain = SequentialChain(
-            chains=[initial_solution_chain, feedback_chain], # , refinement_chain],
-            input_variables=["text", "test_list_0", "test_list_1", "test_list_2"],
-            output_variables=["initial_solution", "feedback"],  # , "refinement"],
+            chains=[initial_solution_chain, feedback_chain, refinement_chain],
+            input_variables=input_variables,
+            output_variables=["initial_solution", "feedback", "refinement"],
         )
         return ilf_chain
 
     def process(self, chain, example):
-        output = chain({
+        chain_kwargs = {
             "text": example["text"],
             # HumanMessagePromptTemplate appears to not be able to handle lists,
             # so we need to pass each element separately.
             "test_list_0": example["test_list"][0],
             "test_list_1": example["test_list"][1],
             "test_list_2": example["test_list"][2],
+        }
+        if self.shuffle_test_answer:
+            test_cases, expected_outputs = zip(*[t.split("==") for t in example["test_list"]])
+            output_to_use = expected_outputs[0]
+            for output in expected_outputs[1:]:
+                if output != output_to_use:
+                    output_to_use = output
+                    break
 
-        })
+            chain_kwargs["shuffled_test"] = f"{test_cases[0]}=={output_to_use}"
+
+        output = chain(chain_kwargs)
         output["gold_code"] = example["code"]
         output["test_setup_code"] = example["test_setup_code"]
 
@@ -313,6 +357,8 @@ New unit tests:
 
             test_cases = gold_tests + model_test_cases
             solutions = [output['initial_solution'], output['gold_code']]
+            if "refinement" in output:
+                solutions.append(output["refinement"])
             solutions = [MARKDOWN_PATTERN.sub('', solution).strip() for solution in solutions]
             solutions = [solution.replace('(object)', '') for solution in solutions]
             if output['test_setup_code']:
